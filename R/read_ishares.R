@@ -46,14 +46,6 @@ read_ishares <- function( ishares_url, etf, save_dir = FALSE ) {
               tic ) ) %>%
     select( -class.a, -tic.len)
 
-  test.df <- ITA.desc %>%
-    mutate( class.a = grepl("CLASS", com_name),
-            tic.len = nchar( tic ),
-            tic.adj = ifelse( class.a == TRUE &
-                                substring(tic, tic.len) == "A",
-                              paste0(
-                                substring(tic, 1, tic.len -1), ".", "A"), tic ) )
-
   # write to disk and include date for ref if asked for
   if( save_dir != FALSE ) {
     saveRDS( etf.desc,
@@ -62,4 +54,3 @@ read_ishares <- function( ishares_url, etf, save_dir = FALSE ) {
 
   return( etf.desc)
 }
-
