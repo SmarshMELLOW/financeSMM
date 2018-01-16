@@ -23,7 +23,7 @@ month_ret <- function( data_df, date_var = "date_id", type, round = FALSE ) {
     print( "Type not valid")
   } else{
     # call make_ret to transform prices into daily returns
-    data_df %<>% month_ret( ) %>%
+    data_df %<>% make_ret( ) %>%
       # if using another name will have to fix later
       mutate(ym_date = as.yearmon( date_id) ) %>%
       group_by( ym_date )
