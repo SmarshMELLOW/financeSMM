@@ -5,7 +5,8 @@
 #'   Type can take on the values: mean, cum, duffee, var
 #' @param data_df data frame
 #' @param date_var the name of the date variable in quotes. Default to date_id
-#' @param type the method used for calculating the return or variance
+#' @param type string. The method used for calculating the return or variance
+#' @param round integer. Option to reduce the degrees of precision. Default to false.
 #' @keywords returns
 #' @import magrittr
 #' @import dplyr
@@ -14,7 +15,7 @@
 #' @examples
 #' month_ret()
 
-month_ret <- function( data_df, date_var = "date_id", type ) {
+month_ret <- function( data_df, date_var = "date_id", type, round = FALSE ) {
 
   # make compatible and break if not
   type <- tolower( type )
@@ -22,40 +23,53 @@ month_ret <- function( data_df, date_var = "date_id", type ) {
     print( "Type not valid")
   } else{
     # call make_ret to transform prices into daily returns
-    data_df %<>% make_ret( date_var )
+    data_df %<>% my_ret( ) %>%
+      # if using another name will have to fix later
+      mutate(ym_date = as.yearmon( date_id) ) %>%
+      group_by( ym_date )
 
-    tic_list <- data_df %>% select_( paste0("-", date_var) ) %>% names( )
-
-    for( t in 1:length(tic_list) ) {
-      tic_start <- data_df %>%
-        select_( date_var, tic_list[t] ) %>%
-        filter( is.na( tic_list[t] ) == FALSE ) %>%
-        min( .$date_var )
-
-      if( t == 1 ) { data_start <- tic_start }
-      else { if(tic_start > data_start) {
-        data_start <- tic_start
-      }
-      }
-
+    # calculate return type ---------------------------------------------------
+    # 1. mean daily returns
+    if (type == "mean") {
+      out_df <- merge( data_df %>% summarise( N_days = n()),
+                       data_df %>% summarise_if( is.numeric, funs( mean(.) - 1) ),
+                       by = "ym_date" ) %>%
+        mutate_at( vars(3:ncol(.)), funs(. * N_days *100 ) ) %>%
+        select( -N_days)
     }
 
-    return( data_start )
+    # 2. cumulative returns
+    if (type == "cum") {
+      out_df <- data_df %>%
+        summarise_if( is.numeric, funs( (sum(. - 1) * 100) ) )
+    }
+    # 3. Duffee type returns
+    if (type == "duffee") {
+      # cum_ret    = sum( log( ret ) )
+      out_df <- data_df %>%
+        summarise_if( is.numeric, funs( sum( log(.) ) * 100) )
+    }
+    # 4. variance
+    if (type == "var") {
+      out_df <- data_df %>%
+        summarise_if( is.numeric, funs( var(.) * 100^2) )
+    }
+    # -------------------------------------------------------------------
+    # filter out months with less than 15 days
+    out_df %<>%
+      merge( data_df %>% summarise( N_days = n()), by = "ym_date" ) %>%
+      filter(N_days > 15) %>%
+      select( -N_days)
 
-    out.df <- data_df %>%
-      mutate( year_mon = as.yearmon( date_var ) ) %>%
-      group_by( year_mon ) %>%
-      summarize( N_days = n() )
-    #return( out.df )
+    # reduce the precision if option specified
+    if ( round != FALSE ) {
+      out_df %<>% mutate_if( is.numeric, funs( round(.,  digits = round) ) )
+    }
+
+    return( out_df )
 
   }
-
-
-
-
 }
-
-'%!in%' <- function(x,y)!('%in%'(x,y))
 
 # summarize( N_days = n(),
 #            mnthly_ret = mean( ret ) -1,
@@ -66,8 +80,3 @@ month_ret <- function( data_df, date_var = "date_id", type ) {
 #           cum_ret    = cum_ret *100,
 #           duffee_ret = duffee_ret *100,
 #           mnthly_var = 100^2 * mnthly_var ) %>%
-#   # drop the last month with only a few obs
-#   filter(N_days > 15) %>%
-#   select( -N_days) %>%
-#   # reduce the degrees of precision
-#   mutate_if( is.numeric, funs( round(.,  digits = 2) ) )

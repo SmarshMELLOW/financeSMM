@@ -4,14 +4,16 @@
 \alias{month_ret}
 \title{make monthly stock return or variance}
 \usage{
-month_ret(data_df, date_var = "date_id", type)
+month_ret(data_df, date_var = "date_id", type, round = FALSE)
 }
 \arguments{
 \item{data_df}{data frame}
 
 \item{date_var}{the name of the date variable in quotes. Default to date_id}
 
-\item{type}{the method used for calculating the return or variance}
+\item{type}{string. The method used for calculating the return or variance}
+
+\item{round}{integer. Option to reduce the degrees of precision. Default to false.}
 }
 \description{
 This function makes monthly stock returns or variances using one of three
