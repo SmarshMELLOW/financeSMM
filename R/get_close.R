@@ -23,6 +23,21 @@ get_close <- function( tic_list ) {
       mutate( date_id = as_date( ymd( row.names( . ) ) ) ) %>%
       select( ends_with("Close"), date_id )
 
+    # sometimes the google data doesn't go very far back, so use yahoo
+    if (min(tic.data$date_id) > ymd("2007-01-03") ) {
+      print(paste0("use yahoo for ", tic) )
+      tic.yahoo <- getSymbols(Symbols = substring( tic, regexpr(":", tic) + 1),
+                              src='yahoo', auto.assign = F) %>%
+        as.data.frame( ) %>%
+        mutate( date_id = as_date( ymd( row.names( . ) ) ) ) %>%
+        select( ends_with("Adjusted"), date_id )
+
+      # replace existing data if yahoo goes further back
+      if (min(tic.yahoo$date_id) < min(tic.data$date_id)) {
+        tic.data <- tic.yahoo
+      }
+    }
+
     # I don't want the exchange in the returned ticker name
     tic_id <- substring( tic, regexpr(":", tic) + 1)
     names( tic.data ) <- c(tic_id, "date_id" )

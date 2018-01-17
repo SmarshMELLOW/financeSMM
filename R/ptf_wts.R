@@ -22,7 +22,7 @@ ptf_wts <- function( data_df, date_var, ptf_mu = NA) {
   # make the vactor of E returns
   mu <- data_df %>%
     select_( paste0("-",date_var) ) %>%
-    summarise_each( funs( mean ) ) %>%
+    summarise_all( funs( mean ) ) %>%
     as.matrix( ) %>%
     t( )
 
