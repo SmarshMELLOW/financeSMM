@@ -33,7 +33,7 @@ get_close <- function( tic_list ) {
         select( ends_with("Adjusted"), date_id )
 
       # replace existing data if yahoo goes further back
-      if (min(tic.yahoo$date_id) < min(tic.data$date_id)) {
+      if (nrow(tic.yahoo) > nrow(tic.data)) {
         tic.data <- tic.yahoo
       }
     }

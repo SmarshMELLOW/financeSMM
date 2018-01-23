@@ -1,8 +1,7 @@
 #' Calculate the portfolio weights of each stock for the Markowitz efficient ptf
 #'
 #' In more detail ... This function
-#' @param data_df the dataframe to be manipulated
-#' @param date_var the name of the date variable in quotes
+#' @param df the dataframe to be manipulated
 #' @param ptf_mu the E ret of the portfolio
 #' @keywords finance
 #' @import magrittr
@@ -12,17 +11,13 @@
 #' @examples
 #' ptf_weights()
 #'
-ptf_wts <- function( data_df, date_var, ptf_mu = NA) {
+ptf_wts <- function( df, ptf_mu = NA) {
 
   # make the vcov matrix
-  S <- data_df %>%
-    select_( paste0("-",date_var) ) %>%
-    var( )
+  S <- df %>% select_if( is.numeric ) %>% var( )
 
   # make the vactor of E returns
-  mu <- data_df %>%
-    select_( paste0("-",date_var) ) %>%
-    summarise_all( funs( mean ) ) %>%
+  mu <- df %>% summarise_if( is.numeric, funs( mean ) ) %>%
     as.matrix( ) %>%
     t( )
 
@@ -54,4 +49,9 @@ ptf_wts <- function( data_df, date_var, ptf_mu = NA) {
   z <- as.matrix( z[1: dim_ptf] )
 
 }
+
+# when use (or allow for) numeric date var
+# S <- data_df %>%
+#  select_( paste0("-",date_var) ) %>%
+#  var( )
 
