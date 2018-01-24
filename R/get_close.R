@@ -25,7 +25,6 @@ get_close <- function( tic_list ) {
 
     # sometimes the google data doesn't go very far back, so use yahoo
     if (min(tic.data$date_id) > ymd("2007-01-03") ) {
-      print(paste0("use yahoo for ", tic) )
       tic.yahoo <- getSymbols(Symbols = substring( tic, regexpr(":", tic) + 1),
                               src='yahoo', auto.assign = F) %>%
         as.data.frame( ) %>%
@@ -34,6 +33,7 @@ get_close <- function( tic_list ) {
 
       # replace existing data if yahoo goes further back
       if (nrow(tic.yahoo) > nrow(tic.data)) {
+        print(paste0("use yahoo for ", tic) )
         tic.data <- tic.yahoo
       }
     }
