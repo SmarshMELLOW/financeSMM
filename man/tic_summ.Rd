@@ -2,14 +2,14 @@
 % Please edit documentation in R/tic_summ.R
 \name{tic_summ}
 \alias{tic_summ}
-\title{Return the avg ret and sd for individual stocks}
+\title{Return the avg ret and variance for individual stocks}
 \usage{
-tic_summ(data_df, date_var = "date_id")
+tic_summ(df, st.dev = FALSE)
 }
 \arguments{
-\item{data_df}{the dataframe to be manipulated}
+\item{df}{the dataframe to be manipulated}
 
-\item{date_var}{the name of the date variable in quotes. Default to date_id}
+\item{st.dev}{FALSE--returns variance, else, sd.}
 }
 \description{
 This function takes a dataframe with stock returns and calculates the mean

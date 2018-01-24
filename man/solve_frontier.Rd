@@ -4,13 +4,11 @@
 \alias{solve_frontier}
 \title{calculate the efficient frontier}
 \usage{
-solve_frontier(data_df, date_var, min_ret = 1.0001, max_ret = 1.01,
+solve_frontier(df, date_var, min_ret = 1.0001, max_ret = 1.01,
   size_out = 100)
 }
 \arguments{
-\item{data_df}{the dataframe to be manipulated}
-
-\item{date_var}{the name of the date variable in quotes}
+\item{df}{the dataframe to be manipulated}
 
 \item{min_ret}{the minimum return}
 

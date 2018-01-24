@@ -4,12 +4,10 @@
 \alias{ptf_wts}
 \title{Calculate the portfolio weights of each stock for the Markowitz efficient ptf}
 \usage{
-ptf_wts(data_df, date_var, ptf_mu = NA)
+ptf_wts(df, ptf_mu = NA)
 }
 \arguments{
-\item{data_df}{the dataframe to be manipulated}
-
-\item{date_var}{the name of the date variable in quotes}
+\item{df}{the dataframe to be manipulated}
 
 \item{ptf_mu}{the E ret of the portfolio}
 }

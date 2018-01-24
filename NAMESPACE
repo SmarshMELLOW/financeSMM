@@ -3,7 +3,6 @@
 export(get_close)
 export(month_ret)
 export(ptf_wts)
-export(qm_download)
 export(read_ishares)
 export(ret_compare)
 export(ret_type)

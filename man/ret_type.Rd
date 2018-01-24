@@ -2,22 +2,25 @@
 % Please edit documentation in R/ret_type.R
 \name{ret_type}
 \alias{ret_type}
-\title{Create stock returns and variance of a given duration}
+\title{Create stock returns for different durations.}
 \usage{
-ret_type(data_df, N.lag, P, l.name)
+ret_type(df, per.len, per.st = 1, ann = FALSE)
 }
 \arguments{
-\item{data_df}{data frame}
+\item{df}{data frame}
 
-\item{N.lag}{Number of lags}
+\item{per.len}{character. The length of the period. E.g. weekly, monthly, daily, other}
 
-\item{P}{the power needed to annualize those lags}
+\item{per.st}{the start of the period. Default to 1. For weekdays, 1 corresponds to Sunday.}
 
-\item{l.name}{the name of the type of return e.g. weekly, monthly}
+\item{ann}{If TRUE, the returns be annualized. Default to FALSE}
 }
 \description{
-This function takes a single stock and creates the return based on the number of lags and then returns
-  the non-missing remaining data and their variances
+This function takes a data frame of stock prices and a date variable created
+  by get_close and creates a new data frame with returns for different
+  durations. The default options are daily, weekly and monthly. By
+  specifying a number for per.len, the returns will be for a period of that
+  many days.
 }
 \examples{
 ret_type()
