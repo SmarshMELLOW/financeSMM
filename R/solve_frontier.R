@@ -13,7 +13,7 @@
 #' solve_frontier()
 #'
 # function to make the frontier
-solve_frontier <- function( df, date_var, min_ret = 1.0001, max_ret = 1.01,
+solve_frontier <- function( df, min_ret = 1.0001, max_ret = 1.01,
                             size_out = 100) {
 
   # need the vcov matrix to calculate the ptf var, the stock weights and N stocks

@@ -4,8 +4,7 @@
 \alias{solve_frontier}
 \title{calculate the efficient frontier}
 \usage{
-solve_frontier(df, date_var, min_ret = 1.0001, max_ret = 1.01,
-  size_out = 100)
+solve_frontier(df, min_ret = 1.0001, max_ret = 1.01, size_out = 100)
 }
 \arguments{
 \item{df}{the dataframe to be manipulated}

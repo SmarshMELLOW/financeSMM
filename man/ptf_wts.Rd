@@ -4,12 +4,14 @@
 \alias{ptf_wts}
 \title{Calculate the portfolio weights of each stock for the Markowitz efficient ptf}
 \usage{
-ptf_wts(df, ptf_mu = NA)
+ptf_wts(df, ptf_mu = NA, tic.names = FALSE)
 }
 \arguments{
 \item{df}{the dataframe to be manipulated}
 
 \item{ptf_mu}{the E ret of the portfolio}
+
+\item{tic.names}{FALSE. If TRUE, return a df with tickers and weights}
 }
 \description{
 In more detail ... This function

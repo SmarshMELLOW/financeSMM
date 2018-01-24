@@ -3,6 +3,7 @@
 #' In more detail ... This function
 #' @param df the dataframe to be manipulated
 #' @param ptf_mu the E ret of the portfolio
+#' @param tic.names FALSE. If TRUE, return a df with tickers and weights
 #' @keywords finance
 #' @import magrittr
 #' @import dplyr
@@ -11,7 +12,7 @@
 #' @examples
 #' ptf_weights()
 #'
-ptf_wts <- function( df, ptf_mu = NA) {
+ptf_wts <- function( df, ptf_mu = NA, tic.names = FALSE) {
 
   # make the vcov matrix
   S <- df %>% select_if( is.numeric ) %>% var( )
@@ -47,6 +48,15 @@ ptf_wts <- function( df, ptf_mu = NA) {
 
   #subset to only give the ptf weights
   z <- as.matrix( z[1: dim_ptf] )
+
+  # return stocks names if option = TRUE
+  if (tic.names == TRUE) {
+    out.df <- bind_cols(data_frame(tic = row.names(mu)), as.data.frame(z))
+    names(out.df) <- c("tic","wts")
+    return( out.df )
+  } else {
+    return(z )
+  }
 
 }
 
