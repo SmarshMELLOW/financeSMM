@@ -4,10 +4,13 @@
 \alias{solve_frontier}
 \title{calculate the efficient frontier}
 \usage{
-solve_frontier(df, min_ret = 1.0001, max_ret = 1.01, size_out = 100)
+solve_frontier(df, S_period = "monthly", min_ret = 1.0001, max_ret = 1.5,
+  size_out = 100)
 }
 \arguments{
-\item{df}{the dataframe to be manipulated}
+\item{df}{a dataframe to stock prices}
+
+\item{S_period}{the period length for the variance matrix. See \code{\link{ret_type}}}
 
 \item{min_ret}{the minimum return}
 
@@ -15,8 +18,13 @@ solve_frontier(df, min_ret = 1.0001, max_ret = 1.01, size_out = 100)
 
 \item{size_out}{the number of obs in the returned df}
 }
+\value{
+a dataframe of expected returns and variances
+}
 \description{
-In more detail ... This function
+This function takes a dataframe of stock prices and calculates the mean-
+  variance efficient frontier. The period length can be manipulated to
+  use an alternate time length for calculating the vcov matrix.
 }
 \examples{
 solve_frontier()
