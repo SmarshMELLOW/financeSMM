@@ -4,21 +4,23 @@
 \alias{ret_type}
 \title{Create stock returns for different durations.}
 \usage{
-ret_type(df, per.len, per.st = 1, ann = FALSE)
+ret_type(df, per.len, per.st = 1, ann = FALSE, quietly = TRUE)
 }
 \arguments{
 \item{df}{data frame}
 
-\item{per.len}{character. The length of the period. E.g. weekly, monthly, daily, other}
+\item{per.len}{character or number. The length of the period. E.g. weekly, monthly, daily, total}
 
 \item{per.st}{the start of the period. Default to 1. For weekdays, 1 corresponds to Sunday.}
 
 \item{ann}{If TRUE, the returns be annualized. Default to FALSE}
+
+\item{quietly}{TRUE, If FALSE, then it will print the period length}
 }
 \description{
 This function takes a data frame of stock prices and a date variable created
   by get_close and creates a new data frame with returns for different
-  durations. The default options are daily, weekly and monthly. By
+  durations. The default options are daily, weekly, monthly, and total. By
   specifying a number for per.len, the returns will be for a period of that
   many days.
 }
